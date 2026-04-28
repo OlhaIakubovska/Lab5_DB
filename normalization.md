@@ -216,8 +216,6 @@ Instructor(UserID PK, Bio, ExpertiseID FK → ExpertiseArea, Rating)
 
 ---
 
----
-
 ## 6. Нові CREATE TABLE для фінальної схеми (3NF)
 
 Повні визначення таблиць наведено у файлі `lab5_normalization.sql`.

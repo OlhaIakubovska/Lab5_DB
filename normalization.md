@@ -166,6 +166,7 @@ Enrollment(EnrollmentID PK, StudentID FK, CourseID FK, EnrollDate, Progress)
 ```
 
 Статус курсу обчислюється: `CASE WHEN Progress = 100 THEN 'Completed' ELSE 'Active' END`.
+<img width="1348" height="611" alt="image" src="https://github.com/user-attachments/assets/fb7d6780-1765-4b01-8239-d42d3ef94ead" />
 
 **Чому це усуває аномалію:**  
 Тепер неможлива ситуація, де `Progress = 100` але `Status = 'Active'`. Єдине джерело правди — поле `Progress`.
@@ -186,6 +187,7 @@ Instructor(UserID PK, Bio, Expertise VARCHAR(100), Rating)
 ExpertiseArea(ExpertiseID PK, ExpertiseName UNIQUE)
 Instructor(UserID PK, Bio, ExpertiseID FK → ExpertiseArea, Rating)
 ```
+<img width="2111" height="398" alt="image" src="https://github.com/user-attachments/assets/400d80b6-9c87-4fba-bcc0-cab8977c9b89" />
 
 **Чому це усуває аномалію:**  
 - Аномалія оновлення: при зміні назви спеціалізації оновлюється лише один рядок в `ExpertiseArea`.
@@ -195,6 +197,7 @@ Instructor(UserID PK, Bio, ExpertiseID FK → ExpertiseArea, Rating)
 ---
 
 ## 5. Підсумкова схема (3NF)
+<img width="1100" height="225" alt="image" src="https://github.com/user-attachments/assets/1dd8ace5-2300-4218-b2d8-d713fc99f7dd" />
 
 ### Таблиці без змін (вже у 3NF):
 - `User` — без змін
@@ -209,6 +212,7 @@ Instructor(UserID PK, Bio, ExpertiseID FK → ExpertiseArea, Rating)
 
 ### Нові таблиці:
 - `ExpertiseArea(ExpertiseID, ExpertiseName)`
+<img width="828" height="335" alt="image" src="https://github.com/user-attachments/assets/197c60a2-2e6d-4d68-a618-66cccc867909" />
 
 ---
 

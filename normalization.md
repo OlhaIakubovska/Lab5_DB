@@ -216,54 +216,9 @@ Instructor(UserID PK, Bio, ExpertiseID FK → ExpertiseArea, Rating)
 
 ---
 
-## 6. SQL-скрипти ALTER TABLE
-
-```sql
--- Крок 1: Створити таблицю-довідник ExpertiseArea
-CREATE TABLE ExpertiseArea (
-    ExpertiseID   SERIAL PRIMARY KEY,
-    ExpertiseName VARCHAR(100) NOT NULL UNIQUE
-);
-
--- Крок 2: Заповнити ExpertiseArea існуючими значеннями
-INSERT INTO ExpertiseArea (ExpertiseName)
-SELECT DISTINCT Expertise FROM Instructor;
-
--- Крок 3: Додати стовпець ExpertiseID до Instructor
-ALTER TABLE Instructor ADD COLUMN ExpertiseID INTEGER;
-
--- Крок 4: Прив'язати кожного викладача до відповідної спеціалізації
-UPDATE Instructor i
-SET ExpertiseID = e.ExpertiseID
-FROM ExpertiseArea e
-WHERE i.Expertise = e.ExpertiseName;
-
--- Крок 5: Встановити NOT NULL та FK обмеження
-ALTER TABLE Instructor ALTER COLUMN ExpertiseID SET NOT NULL;
-ALTER TABLE Instructor ADD CONSTRAINT fk_instructor_expertise
-    FOREIGN KEY (ExpertiseID) REFERENCES ExpertiseArea(ExpertiseID);
-
--- Крок 6: Видалити старий стовпець Expertise
-ALTER TABLE Instructor DROP COLUMN Expertise;
-
--- Крок 7: Видалити стовпець Status з Enrollment
-ALTER TABLE Enrollment DROP COLUMN Status;
-
--- Крок 8: Створити View для зручного читання статусу
-CREATE OR REPLACE VIEW EnrollmentView AS
-SELECT
-    EnrollmentID,
-    StudentID,
-    CourseID,
-    EnrollDate,
-    Progress,
-    CASE WHEN Progress = 100 THEN 'Completed' ELSE 'Active' END AS Status
-FROM Enrollment;
-```
-
 ---
 
-## 7. Нові CREATE TABLE для фінальної схеми (3NF)
+## 6. Нові CREATE TABLE для фінальної схеми (3NF)
 
 Повні визначення таблиць наведено у файлі `lab5_normalization.sql`.
 
